@@ -1,0 +1,16 @@
+.form-title {
+    padding: 20px;
+    font-size: 23px;
+}
+
+.form {
+    font-size: 20px;
+}
+
+/* .form-label {}
+
+.form-input {} */
+
+.form-submit {
+    padding: 10px 20px 10px 20px;
+}

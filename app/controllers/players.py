@@ -29,8 +29,14 @@ async def create_player(
     session: AsyncSession = Depends(get_async_session),
     player: CreatePlayer = Depends(CreatePlayer.as_form),
 ):
-    await Player.create(session, player)
-    return views.TemplateResponse("home.html", {"request": request})
+    _player = await Player.create(session, player)
+    return views.TemplateResponse(
+        "info.html",
+        {
+            "request": request,
+            "message": f"Created player {_player.first_name} {_player.last_name} with id {_player.id}",
+        },
+    )
 
 
 @router.get("/{player_id}", response_model=ReadPlayer)

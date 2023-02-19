@@ -1,0 +1,23 @@
+
+.info {
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.wrapper {
+    margin: 15px 0;
+}
+
+.wrapper>a {
+    font-size: 20px;
+    box-shadow: inset 0 0 0 0 #5731dd;
+    color: #5731dd;
+    margin: 0 -.25rem;
+    padding: 0 .25rem;
+    transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+}
+
+.wrapper>a:hover {
+    box-shadow: inset 200px 0 0 0 #7d5fe9;
+    color: white;
+}

@@ -2,11 +2,18 @@
 
 {% block head %}
 <title>Game records</title>
-<link rel="stylesheet" href="{{ url_for('static', path='/css/home.css' ) }}" />
+<link rel="stylesheet" href="{{ url_for('static', path='/css/info.css' ) }}" />
 {% endblock head %}
 
 {% block content %}
 <div class="info">
-    {{ message }}
+    {% if message %}
+    <div class="message">
+        {{ message }}
+    </div>
+    {% endif %}
+    <div class="wrapper">
+        <a href="{{ url_for('home') }}">Back to home</a>
+    </div>
 </div>
 {% endblock content %}

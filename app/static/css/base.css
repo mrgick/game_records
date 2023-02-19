@@ -8,7 +8,8 @@ body {
     font-size: 16px;
     font-weight: 400;
     background: rgb(195,200,255);
-    background: linear-gradient(90deg, rgba(195,200,255,1) 0%, rgba(151,155,196,1) 50%, rgba(195,200,255,1) 100%); 
+    background: linear-gradient(90deg, rgba(195,200,255,1) 0%, rgba(151,155,196,1) 50%, rgba(195,200,255,1) 100%);
+    color: #201253; 
 }
 
 .content {

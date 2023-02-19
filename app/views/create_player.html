@@ -2,18 +2,18 @@
 
 {% block head %}
 <title>Create player</title>
-<link rel="stylesheet" href="{{ url_for('static', path='/css/home.css' ) }}" />
+<link rel="stylesheet" href="{{ url_for('static', path='/css/form.css' ) }}" />
 {% endblock head %}
 
 {% block content %}
-<div>Create player form</div>
-<div class="create-player-form">
+<div class="form-title">Create player form</div>
+<div class="form">
     <form action="{{ url_for('create_player') }}" method="POST">
-        <label for="fname">First name:</label>
-        <input type="text" id="fname" name="fname"><br><br>
-        <label for="lname">Last name:</label>
-        <input type="text" id="lname" name="lname"><br><br>
-        <input type="submit" value="Submit">
+        <label class="form-label" for="first_name">First name:</label>
+        <input class="form-input" type="text" id="first_name" name="first_name" required><br><br>
+        <label class="form-label" for="last_name">Last name:</label>
+        <input class="form-label" type="text" id="last_name" name="last_name" required><br><br>
+        <input class="form-submit" type="submit" value="Submit">
     </form>
 </div>
 {% endblock content %}
