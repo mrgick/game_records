@@ -31,21 +31,28 @@ class Player(Base):
     async def update(
         cls, session: AsyncSession, id: int, player: UpdatePlayer
     ) -> ReadPlayer:
-        _player = Player(id=id, **player.dict())
-        session.add(_player)
+        statement = select(Player).where(Player.id==id)
+        result = await session.execute(statement)
+        _player = result.scalar_one()
+        if player.first_name:
+            _player.first_name = player.first_name
+        if player.last_name:
+            _player.last_name = player.last_name
         await session.commit()
         return ReadPlayer.from_orm(_player)
 
     @classmethod
     async def delete(cls, session: AsyncSession, id: int) -> None:
-        player = await session.get(id=id)
-        await session.delete(player)
+        statement = select(Player).where(Player.id==id)
+        result = await session.execute(statement)
+        _player = result.scalar_one()
+        await session.delete(_player)
 
     @classmethod
     async def get(cls, session: AsyncSession, id: int) -> ReadPlayer:
-        statement = select(Player).where(id=id)
+        statement = select(Player).where(Player.id==id)
         player = await session.execute(statement)
-        return ReadPlayer.from_orm(player.one())
+        return ReadPlayer.from_orm(player.scalar_one())
 
     @classmethod
     async def get_all(cls, session: AsyncSession) -> list:
@@ -67,6 +74,6 @@ class Game(Base):
     date: Mapped[datetime]
     player1_id: Mapped[int] = mapped_column(ForeignKey("players.id"))
     player2_id: Mapped[int] = mapped_column(ForeignKey("players.id"))
-    player1 = relationship("Player", primaryjoin="Game.player1_id == Player.id")
-    player2 = relationship("Player", primaryjoin="Game.player2_id == Player.id")
-    status: Mapped["int"] = mapped_column(Enum(Status), default=Status.not_started)
+    player1: Mapped["Player"] = relationship("Player", primaryjoin="Game.player1_id == Player.id")
+    player2: Mapped["Player"] = relationship("Player", primaryjoin="Game.player2_id == Player.id")
+    status: Mapped[int] = mapped_column(Enum(Status), default=Status.not_started)

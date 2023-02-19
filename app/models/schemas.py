@@ -18,6 +18,9 @@ class UpdatePlayer(BasePlayer):
     first_name: str | None = Field(max_length=64)
     last_name: str | None = Field(max_length=64)
 
+    class Config:
+        orm_mode = True
+
 
 class ReadPlayer(BasePlayer):
     id: int

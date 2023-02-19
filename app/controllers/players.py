@@ -5,7 +5,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from ..models.database import get_async_session, AsyncSession
-from ..models.schemas import CreatePlayer, ReadPlayer
+from ..models.schemas import CreatePlayer, ReadPlayer, UpdatePlayer
 from ..models.models import Player
 from ..config import settings
 
@@ -16,6 +16,30 @@ views = Jinja2Templates(directory=settings.views_path)
 @router.get("/", response_model=List[ReadPlayer])
 async def get_all_players(session: AsyncSession = Depends(get_async_session)):
     return await Player.get_all(session)
+
+
+@router.get("/{player_id}", response_model=ReadPlayer)
+async def get_player(
+    player_id: int, session: AsyncSession = Depends(get_async_session)
+):
+    return await Player.get(session, player_id)
+
+
+@router.put("/{player_id}", response_model=ReadPlayer)
+async def update_player(
+    player_id: int,
+    player: UpdatePlayer,
+    session: AsyncSession = Depends(get_async_session),
+):
+    return await Player.update(session, player_id, player)
+
+
+@router.delete("/{player_id}")
+async def delete_player(
+    player_id: int, session: AsyncSession = Depends(get_async_session)
+):
+    await Player.delete(session, player_id)
+    return {'status': True}
 
 
 @router.get("/create", response_class=HTMLResponse, name="create_player_form")
