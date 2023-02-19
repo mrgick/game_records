@@ -28,7 +28,7 @@ async def get_player(
 @router.put("/{player_id}", response_model=ReadPlayer)
 async def update_player(
     player_id: int,
-    player: UpdatePlayer,
+    player: UpdatePlayer = Depends(UpdatePlayer.as_form),
     session: AsyncSession = Depends(get_async_session),
 ):
     return await Player.update(session, player_id, player)
