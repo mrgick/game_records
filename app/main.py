@@ -1,6 +1,7 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
-from .controllers import base, games, players
+from .controllers import games, home, players
 from .config import settings
 
 
@@ -10,9 +11,8 @@ app = FastAPI(
     version=settings.app_version,
 )
 
-app.include_router(base.router)
+app.mount("/static", StaticFiles(directory=settings.static_path), name="static")
+
+app.include_router(home.router)
 app.include_router(games.router)
 app.include_router(players.router)
-
-
-

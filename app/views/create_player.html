@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Create player</title>
+<link rel="stylesheet" href="{{ url_for('static', path='/css/home.css' ) }}" />
+{% endblock head %}
+
+{% block content %}
+<div>Create player form</div>
+<div class="create-player-form">
+    <form action="{{ url_for('create_player') }}" method="POST">
+        <label for="fname">First name:</label>
+        <input type="text" id="fname" name="fname"><br><br>
+        <label for="lname">Last name:</label>
+        <input type="text" id="lname" name="lname"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+{% endblock content %}

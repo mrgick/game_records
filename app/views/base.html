@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Record of game matches.">
+    <meta name="keywords" content="record, game, matches">
+    <meta name="author" content="MrGick">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', path='/favicon/apple-touch-icon.png' ) }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', path='favicon/favicon-32x32.png' ) }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', path='/favicon/favicon-16x16.png' ) }}">
+    <link rel="manifest" href="{{ url_for('static', path='/favicon/site.webmanifest' ) }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/base.css' ) }}" />
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/navbar.css' ) }}" />
+    {% block head %}
+    {% endblock head %}
+</head>
+
+<body>
+    {% include "navbar.html"%}
+    {% block content %}
+    {% endblock content %}
+</body>
+
+</html>
