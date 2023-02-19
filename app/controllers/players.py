@@ -18,6 +18,21 @@ async def get_all_players(session: AsyncSession = Depends(get_async_session)):
     return await Player.get_all(session)
 
 
+@router.get("/create", response_class=HTMLResponse, name="create_player_form")
+async def create_player(request: Request):
+    return views.TemplateResponse("create_player.html", {"request": request})
+
+
+@router.post("/create", response_class=HTMLResponse, name="create_player")
+async def create_player(
+    request: Request,
+    session: AsyncSession = Depends(get_async_session),
+    player: CreatePlayer = Depends(CreatePlayer.as_form),
+):
+    await Player.create(session, player)
+    return views.TemplateResponse("home.html", {"request": request})
+
+
 @router.get("/{player_id}", response_model=ReadPlayer)
 async def get_player(
     player_id: int, session: AsyncSession = Depends(get_async_session)
@@ -39,19 +54,4 @@ async def delete_player(
     player_id: int, session: AsyncSession = Depends(get_async_session)
 ):
     await Player.delete(session, player_id)
-    return {'status': True}
-
-
-@router.get("/create", response_class=HTMLResponse, name="create_player_form")
-async def create_player(request: Request):
-    return views.TemplateResponse("create_player.html", {"request": request})
-
-
-@router.post("/create", response_class=HTMLResponse, name="create_player")
-async def create_player(
-    request: Request,
-    session: AsyncSession = Depends(get_async_session),
-    player: CreatePlayer = Depends(CreatePlayer.as_form),
-):
-    await Player.create(session, player)
-    return views.TemplateResponse("home.html", {"request": request})
+    return {"status": True}

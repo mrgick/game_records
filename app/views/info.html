@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Game records</title>
+<link rel="stylesheet" href="{{ url_for('static', path='/css/home.css' ) }}" />
+{% endblock head %}
+
+{% block content %}
+<div class="info">
+    {{ message }}
+</div>
+{% endblock content %}

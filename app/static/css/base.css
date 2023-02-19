@@ -4,5 +4,16 @@
 
 body {
     margin: 0px;
-    font-family: 'segoe ui';
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    background: rgb(195,200,255);
+    background: linear-gradient(90deg, rgba(195,200,255,1) 0%, rgba(151,155,196,1) 50%, rgba(195,200,255,1) 100%); 
+}
+
+.content {
+    text-align: center;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
 }

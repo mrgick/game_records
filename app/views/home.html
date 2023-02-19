@@ -7,7 +7,17 @@
 
 {% block content %}
 <div class="home">
-    <a href="123">Создать игрока</a>
-    <a href="123">Создать матч</a>
+    <div class="home-wrapper">
+        <a href="{{ url_for('create_player_form' ) }}">Create player</a>
+    </div>
+    <div class="home-wrapper">
+        <a href="#">Create game</a>
+    </div>
+    <div class="home-wrapper">
+        <a href="#">All games</a>
+    </div>
+        <div class="home-wrapper">
+        <a href="#">All players</a>
+    </div>
 </div>
 {% endblock content %}
