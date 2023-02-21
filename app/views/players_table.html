@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Player list</title>
+<link rel="stylesheet" href="{{ url_for('static', path='/css/table.css' ) }}" />
+{% endblock head %}
+
+{% block content %}
+<h1>Player list</h1>
+<table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for player in players %}
+        <tr>
+            <th>{{player.id}}</th>
+            <th>{{player.first_name}}</th>
+            <th>{{player.last_name}}</th>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

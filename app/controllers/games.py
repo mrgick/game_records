@@ -18,7 +18,6 @@ async def get_all_games(
     request: Request, session: AsyncSession = Depends(get_async_session)
 ):
     games = await Game.get_all(session)
-    print(games)
     return views.TemplateResponse(
         "games_table.html", {"request": request, "games": games}
     )
