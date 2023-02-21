@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Games list</title>
+<link rel="stylesheet" href="{{ url_for('static', path='/css/table.css' ) }}" />
+{% endblock head %}
+
+{% block content %}
+<h1>Games list</h1>
+<table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>date</th>
+            <th>status</th>
+            <th>player 1</th>
+            <th>player 2</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for game in games %}
+        <tr>
+            <th>{{game.id}}</th>
+            <th>{{game.date}}</th>
+            <th>{{game.status}}</th>
+            <th>{{game.player1.first_name}} {{game.player1.last_name}}</th>
+            <th>{{game.player2.first_name}} {{game.player2.last_name}}</th>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}
