@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Create game</title>
+<link rel="stylesheet" href="{{ url_for('static', path='/css/form.css' ) }}" />
+{% endblock head %}
+
+{% block content %}
+<div class="form-title">Create game form</div>
+<div class="form">
+    <form action="{{ url_for('create_game') }}" method="POST">
+        <div class="form-block">
+            <label class="form-label" for="date">Date:</label>
+            <input class="form-input" type="datetime-local" id="date" name="date" required>
+        </div>
+        <div class="form-block">
+            <label class="form-label" for="player1_id">Player 1:</label>
+            <select class="form-input" type="text" id="player1_id" name="player1_id" required>
+                {% for player in players %}
+                <option value={{player.id}}>{{player.first_name}} {{player.last_name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-block">
+            <label class="form-label" for="player2_id">Player 2:</label>
+            <select class="form-input" type="text" id="player2_id" name="player2_id" required>
+                {% for player in players %}
+                <option value={{player.id}}>{{player.first_name}} {{player.last_name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-block">
+            <label class="form-label" for="status">Status</label>
+            <select class="form-input" id="status" name="status">
+                <option value="0">Didn't started</option>
+                <option value="1">Player 1 win</option>
+                <option value="2">Player 2 win</option>
+                <option value="3">Draw</option>
+            </select>
+        </div>
+        <div class="form-block">
+            <input class="form-submit" type="submit" value="Submit">
+        </div>
+    </form>
+</div>
+{% endblock content %}

@@ -9,10 +9,15 @@
 <div class="form-title">Create player form</div>
 <div class="form">
     <form action="{{ url_for('create_player') }}" method="POST">
-        <label class="form-label" for="first_name">First name:</label>
-        <input class="form-input" type="text" id="first_name" name="first_name" required><br><br>
-        <label class="form-label" for="last_name">Last name:</label>
-        <input class="form-label" type="text" id="last_name" name="last_name" required><br><br>
+        <div class="form-block">
+            <label class="form-label" for="first_name">First name:</label>
+            <input class="form-input" type="text" id="first_name" name="first_name" required>
+        </div>
+        <div class="form-block">
+            <label class="form-label" for="last_name">Last name:</label>
+            <input class="form-input" type="text" id="last_name" name="last_name" required>
+        </div>
+
         <input class="form-submit" type="submit" value="Submit">
     </form>
 </div>

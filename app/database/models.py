@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import ForeignKey, String, SmallInteger
+from sqlalchemy import ForeignKey, String, SmallInteger, exc
 from sqlalchemy.orm import (
     DeclarativeBase,
     Mapped,
@@ -87,9 +87,11 @@ class Game(Base):
     @classmethod
     async def create(cls, session: AsyncSession, game: CreateGame) -> ReadGame:
         _game = Game(**game.dict())
+        if _game.player1_id == _game.player2_id:
+            raise exc.SQLAlchemyError('Players must be unique!')
         session.add(_game)
         await session.commit()
-        return cls.get(session, _game.id)
+        return await cls.get(session, _game.id)
 
     @classmethod
     async def update(cls, session: AsyncSession, id: int, game: UpdateGame) -> ReadGame:
