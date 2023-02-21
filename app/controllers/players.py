@@ -4,9 +4,9 @@ from fastapi import APIRouter, Request, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from ..models.database import get_async_session, AsyncSession
-from ..models.schemas import CreatePlayer, ReadPlayer, UpdatePlayer
-from ..models.models import Player
+from ..database.database import get_async_session, AsyncSession
+from ..database.schemas import CreatePlayer, ReadPlayer, UpdatePlayer
+from ..database.models import Player
 from ..config import settings
 
 router = APIRouter(prefix="/players", tags=["players"])
