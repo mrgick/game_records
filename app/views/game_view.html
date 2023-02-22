@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Game {{game.id}}</title>
+<link rel="stylesheet" href="{{ url_for('static', path='/css/form.css' ) }}" />
+{% endblock head %}
+
+{% block content %}
+<h1>Game {{game.id}}</h1>
+<div>
+    <div>
+        <p>Date:</p>
+        <p>{{game.date}}</p>
+    </div>
+    <div>
+        <p>Player 1:</p>
+        <p>{{game.player1.first_name}} {{game.player1.last_name}}</p>
+    </div>
+    <div>
+        <p>Player 2:</p>
+        <p>{{game.player2.first_name}} {{game.player2.last_name}}</p>
+    </div>
+    <div>
+        <p>Status:</p>
+        <p>
+            {% if game.status == 0%}
+            Didn't started
+            {% elif game.status == 1%}
+            Player 1 win
+            {% elif game.status == 2%}
+            Player 2 win
+            {% else%}
+            Draw
+            {% endif %}
+        </p>
+    </div>
+</div>
+{% endblock content %}

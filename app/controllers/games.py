@@ -13,7 +13,7 @@ router = APIRouter(prefix="/games", tags=["games"])
 views = Jinja2Templates(directory=settings.views_path)
 
 
-@router.get("/", response_class=HTMLResponse, name='get_all_games')
+@router.get("/", response_class=HTMLResponse, name="get_all_games")
 async def get_all_games(
     request: Request, session: AsyncSession = Depends(get_async_session)
 ):
@@ -45,9 +45,12 @@ async def create_game(
     )
 
 
-@router.get("/{game_id}", response_model=ReadGame)
-async def get_game(game_id: int, session: AsyncSession = Depends(get_async_session)):
-    return await Game.get(session, game_id)
+@router.get("/{game_id}", response_class=HTMLResponse)
+async def get_game(
+    request: Request, game_id: int, session: AsyncSession = Depends(get_async_session)
+):
+    game = await Game.get(session, game_id)
+    return views.TemplateResponse("game_view.html", {"request": request, "game": game})
 
 
 @router.put("/{game_id}", response_model=ReadGame)

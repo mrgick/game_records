@@ -15,6 +15,7 @@
     margin: 0 -.25rem;
     padding: 0 .25rem;
     transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+    text-decoration: none;
 }
 
 .wrapper>a:hover {
