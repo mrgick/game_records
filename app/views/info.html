@@ -12,6 +12,11 @@
         {{ message }}
     </div>
     {% endif %}
+    {% if error %}
+    <div class="message" style="color:#8a0101">
+        {{ error }}
+    </div>
+    {% endif %}
     <div class="wrapper">
         <a href="{{ url_for('home') }}">Back to home</a>
     </div>
