@@ -1,11 +1,9 @@
-from typing import List
-
 from fastapi import APIRouter, Request, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from ..database.database import get_async_session, AsyncSession
-from ..database.schemas import CreateGame, ReadGame, UpdateGame
+from ..database.schemas import CreateGame, UpdateGame
 from ..database.models import Game, Player
 from ..config import settings
 
@@ -87,5 +85,6 @@ async def get_game(
     game = await Game.get(session, game_id)
     players = await Player.get_all(session)
     return views.TemplateResponse(
-        "games/game.html", {"request": request, "players": players, "game": game, "mode": "read"}
+        "games/game.html",
+        {"request": request, "players": players, "game": game, "mode": "read"},
     )

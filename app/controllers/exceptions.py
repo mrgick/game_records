@@ -1,6 +1,6 @@
 from starlette.requests import Request
-from starlette.responses import Response
 from fastapi.templating import Jinja2Templates
+
 from ..config import settings
 
 views = Jinja2Templates(directory=settings.views_path)
