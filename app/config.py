@@ -1,4 +1,4 @@
-from pydantic import BaseSettings, PostgresDsn
+from pydantic import BaseSettings
 from pathlib import Path
 
 
@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     app_version: str = "0.0.1"
     static_path: Path = Path().absolute() / 'app' / 'static'
     views_path: Path = Path().absolute() / 'app' / 'views'
-    db_url: PostgresDsn
+    db_url: str
 
     class Config:
         env_file = ".env"
