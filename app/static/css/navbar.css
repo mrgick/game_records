@@ -1,7 +1,7 @@
 .nav {
     height: 50px;
     width: 100%;
-    background-color: rgb(124, 131, 204);
+    background-color: #725CD7;
     position: relative;
 }
 
@@ -11,7 +11,7 @@
 
 .nav>.nav-header>.nav-title {
     display: inline-block;
-    font-size: 22px;
+    font-size: 24px;
     color: #fff;
     padding: 10px 10px 10px 10px;
 }
@@ -23,7 +23,7 @@
 .nav>.nav-links {
     display: inline;
     float: right;
-    font-size: 18px;
+    font-size: 19px;
 }
 
 .nav>.nav-links>a {

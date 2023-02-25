@@ -16,16 +16,18 @@
         <div class="form-block">
             <label class="form-label" for="player1_id">Player 1:</label>
             <select class="form-input" type="text" id="player1_id" name="player1_id" required>
+                <option value=""></option>
                 {% for player in players %}
-                <option value={{player.id}}>{{player.first_name}} {{player.last_name}}</option>
+                <option value={{player.id}}>{{player.id}}. {{player.first_name}} {{player.last_name}}</option>
                 {% endfor %}
             </select>
         </div>
         <div class="form-block">
             <label class="form-label" for="player2_id">Player 2:</label>
             <select class="form-input" type="text" id="player2_id" name="player2_id" required>
+                <option value=""></option>
                 {% for player in players %}
-                <option value={{player.id}}>{{player.first_name}} {{player.last_name}}</option>
+                <option value={{player.id}}>{{player.id}}. {{player.first_name}} {{player.last_name}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -43,4 +45,23 @@
         </div>
     </form>
 </div>
+<script>
+    const select1 = document.getElementById("player1_id");
+    const select2 = document.getElementById("player2_id");
+
+    // Listen for changes to either select element
+    select1.addEventListener("change", updateSelects);
+    select2.addEventListener("change", updateSelects);
+
+    function updateSelects() {
+        // Get the selected option value for each select element
+        const select1Value = select1.value;
+        const select2Value = select2.value;
+
+        // If the selected options match, reset the second select element
+        if (select1Value === select2Value) {
+            select2.selectedIndex = 0;
+        }
+    }
+</script>
 {% endblock content %}
