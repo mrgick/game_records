@@ -11,9 +11,9 @@
 
 .nav>.nav-header>.nav-title {
     display: inline-block;
-    font-size: 24px;
+    font-size: 26px;
     color: #fff;
-    padding: 10px 10px 10px 10px;
+    padding: 6px 10px 10px 10px;
 }
 
 .nav>.nav-btn {
@@ -28,7 +28,7 @@
 
 .nav>.nav-links>a {
     display: inline-block;
-    padding: 13px 10px 13px 10px;
+    padding: 12px 10px 13px 10px;
     text-decoration: none;
     color: #efefef;
 }
@@ -72,7 +72,7 @@
         position: absolute;
         display: block;
         width: 100%;
-        background-color: #333;
+        background-color: #927DF4;
         height: 0px;
         transition: all 0.3s ease-in;
         overflow-y: hidden;

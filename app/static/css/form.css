@@ -36,7 +36,7 @@ select {
     color: #000000;
 }
 
-input[type="submit"] {
+.form-submit {
     background-color: #593C8F;
     color: #FFFFFF;
     padding: 10px 15px;
@@ -48,6 +48,6 @@ input[type="submit"] {
     margin-top: 40px;
 }
 
-input[type="submit"]:hover {
+.form-submit:hover {
     background-color: #3B2566;
 }

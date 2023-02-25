@@ -20,11 +20,11 @@
     <tbody>
         {% for game in games %}
         <tr>
-            <th>{{game.id}}</th>
-            <th>{{game.date}}</th>
-            <th>{{game.status}}</th>
-            <th>{{game.player1.first_name}} {{game.player1.last_name}}</th>
-            <th>{{game.player2.first_name}} {{game.player2.last_name}}</th>
+            <td>{{game.id}}</td>
+            <td>{{game.date}}</td>
+            <td>{{game.status}}</td>
+            <td>{{game.player1.id}}. {{game.player1.first_name}} {{game.player1.last_name}}</td>
+            <td>{{game.player2.id}}. {{game.player2.first_name}} {{game.player2.last_name}}</td>
         </tr>
         {% endfor %}
     </tbody>

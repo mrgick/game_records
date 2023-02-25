@@ -18,9 +18,9 @@
     <tbody>
         {% for player in players %}
         <tr>
-            <th>{{player.id}}</th>
-            <th>{{player.first_name}}</th>
-            <th>{{player.last_name}}</th>
+            <td><a href="{{ url_for('get_player', player_id=player.id ) }}">{{player.id}}</a></td>
+            <td>{{player.first_name}}</td>
+            <td>{{player.last_name}}</td>
         </tr>
         {% endfor %}
     </tbody>

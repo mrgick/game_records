@@ -1,11 +1,43 @@
+h1 {
+    margin: 40px;
+}
+
 table {
     margin-left: auto;
     margin-right: auto;
-    border: 1px solid #4b54d2;
 }
 
 th {
-    min-width: 100px;
+    font-size: 20px;
+    text-align: center;
+    background-color: #665CD7;
+    color: #ffffff;
     padding: 10px;
-    border: 1px solid #4b54d2;
+    border: 1px solid #665CD7;
+    min-width: 100px;
+}
+
+td {
+    font-size: 18px;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #665CD7;
+}
+
+tr:nth-child(even) {
+    background-color: #6c63c6;
+}
+
+tr:nth-child(odd) {
+    background-color: #928be1;
+}
+
+a {
+    color: #aef9fd;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #8a2be2;
+    text-decoration: underline;
 }

@@ -1,11 +1,9 @@
-from typing import List
-
 from fastapi import APIRouter, Request, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from ..database.database import get_async_session, AsyncSession
-from ..database.schemas import CreatePlayer, ReadPlayer, UpdatePlayer
+from ..database.schemas import CreatePlayer, UpdatePlayer
 from ..database.models import Player
 from ..config import settings
 
@@ -25,7 +23,7 @@ async def get_all_players(
 
 @router.get("/create", response_class=HTMLResponse, name="create_player_form")
 async def create_player(request: Request):
-    return views.TemplateResponse("create_player.html", {"request": request})
+    return views.TemplateResponse("player.html", {"request": request, "mode": "create"})
 
 
 @router.post("/create", response_class=HTMLResponse, name="create_player")
@@ -44,25 +42,40 @@ async def create_player(
     )
 
 
-@router.get("/{player_id}", response_model=ReadPlayer)
-async def get_player(
-    player_id: int, session: AsyncSession = Depends(get_async_session)
-):
-    return await Player.get(session, player_id)
-
-
-@router.put("/{player_id}", response_model=ReadPlayer)
+@router.get(
+    "/update/{player_id}", response_class=HTMLResponse, name="update_player_form"
+)
 async def update_player(
+    request: Request, player_id: int, session: AsyncSession = Depends(get_async_session)
+):
+    player = await Player.get(session, player_id)
+    return views.TemplateResponse(
+        "player.html", {"request": request, "mode": "update", "player": player}
+    )
+
+
+@router.post("/update/{player_id}", response_class=HTMLResponse, name="update_player")
+async def update_player(
+    request: Request,
     player_id: int,
     player: UpdatePlayer = Depends(UpdatePlayer.as_form),
     session: AsyncSession = Depends(get_async_session),
 ):
-    return await Player.update(session, player_id, player)
+    _player = await Player.update(session, player_id, player)
+    return views.TemplateResponse(
+        "info.html",
+        {
+            "request": request,
+            "message": f"Updated player {_player.first_name} {_player.last_name} with id {_player.id}",
+        },
+    )
 
 
-@router.delete("/{player_id}")
-async def delete_player(
-    player_id: int, session: AsyncSession = Depends(get_async_session)
+@router.get("/{player_id}", response_class=HTMLResponse, name="get_player")
+async def get_player(
+    request: Request, player_id: int, session: AsyncSession = Depends(get_async_session)
 ):
-    await Player.delete(session, player_id)
-    return {"status": True}
+    player = await Player.get(session, player_id)
+    return views.TemplateResponse(
+        "player.html", {"request": request, "mode": "read", "player": player}
+    )

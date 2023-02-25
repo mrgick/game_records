@@ -52,12 +52,6 @@ class Player(Base):
         return ReadPlayer.from_orm(_player)
 
     @classmethod
-    async def delete(cls, session: AsyncSession, id: int) -> None:
-        statement = select(Player).where(Player.id == id)
-        result = await session.execute(statement)
-        await session.delete(result.scalar_one())
-
-    @classmethod
     async def get(cls, session: AsyncSession, id: int) -> ReadPlayer:
         statement = select(Player).where(Player.id == id)
         result = await session.execute(statement)
@@ -88,7 +82,7 @@ class Game(Base):
     async def create(cls, session: AsyncSession, game: CreateGame) -> ReadGame:
         _game = Game(**game.dict())
         if _game.player1_id == _game.player2_id:
-            raise exc.SQLAlchemyError('Players must be unique!')
+            raise exc.SQLAlchemyError("Players must be unique!")
         session.add(_game)
         await session.commit()
         return await cls.get(session, _game.id)
@@ -113,6 +107,7 @@ class Game(Base):
         statement = select(Game).where(Game.id == id)
         result = await session.execute(statement)
         await session.delete(result.scalar_one())
+        await session.commit()
 
     @classmethod
     async def get(cls, session: AsyncSession, id: int) -> ReadGame:

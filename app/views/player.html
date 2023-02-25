@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>
+    {% if mode == 'create' %}
+    Create player form
+    {% elif mode == 'update'%}
+    Update player {{player.id}} form
+    {% else %}
+    Player {{player.id}}
+    {% endif %}
+</title>
+<link rel="stylesheet" href="{{ url_for('static', path='/css/form.css' ) }}" />
+{% endblock head %}
+
+{% block content %}
+<h1 class="form-title">
+    {% if mode == 'create' %}
+    Create player form
+    {% elif mode == 'update'%}
+    Update player {{player.id}} form
+    {% else %}
+    Player {{player.id}}
+    {% endif %}
+</h1>
+<div class="form">
+    <form action="
+        {% if mode == 'create'%}
+        {{ url_for('create_player') }}
+        {% elif mode == 'update'%}
+        {{ url_for('update_player', player_id=player.id) }}
+        {% else %}
+        {% endif %}  
+    " method="POST" {% if mode=='read' %} disabled {% endif %}>
+        <div class="form-block">
+            <label class="form-label" for="first_name">First name:</label>
+            <input class="form-input" type="text" id="first_name" name="first_name" required {% if mode!='create'
+                %}value={{player.first_name}}{% endif %} {% if mode=='read' %}disabled{% endif %}>
+        </div>
+        <div class="form-block">
+            <label class="form-label" for="last_name">Last name:</label>
+            <input class="form-input" type="text" id="last_name" name="last_name" required {% if mode!='create'
+                %}value={{player.last_name}}{% endif %} {% if mode=='read' %}disabled{% endif %}>
+        </div>
+
+        {% if mode == 'create'%}
+        <input class="form-submit" type="submit" value="Create">
+        {% elif mode == 'update'%}
+        <input class="form-submit" type="submit" value="Update">
+        {% endif %}
+    </form>
+    {% if mode == 'read'%}
+        <form action="{{ url_for('update_player_form', player_id=player.id) }}" method="GET">
+            <input class="form-submit" type="submit" value="Edit">
+        </form>
+    {% endif %}
+</div>
+{% endblock content %}
