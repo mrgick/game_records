@@ -34,13 +34,15 @@
     " method="POST" {% if mode=='read' %} disabled {% endif %}>
         <div class="form-block">
             <label class="form-label" for="first_name">First name:</label>
-            <input class="form-input" type="text" id="first_name" name="first_name" required {% if mode!='create'
-                %}value={{player.first_name}}{% endif %} {% if mode=='read' %}disabled{% endif %}>
+            <input class="form-input" type="text" id="first_name" name="first_name" required 
+            {% if mode!='create'%}value={{player.first_name}}{% endif %}
+            {% if mode=='read' %}disabled{% endif %}>
         </div>
         <div class="form-block">
             <label class="form-label" for="last_name">Last name:</label>
-            <input class="form-input" type="text" id="last_name" name="last_name" required {% if mode!='create'
-                %}value={{player.last_name}}{% endif %} {% if mode=='read' %}disabled{% endif %}>
+            <input class="form-input" type="text" id="last_name" name="last_name" required
+            {% if mode!='create'%}value={{player.last_name}}
+            {% endif %} {% if mode=='read' %}disabled{% endif %}>
         </div>
 
         {% if mode == 'create'%}

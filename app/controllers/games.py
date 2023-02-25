@@ -19,7 +19,7 @@ async def get_all_games(
 ):
     games = await Game.get_all(session)
     return views.TemplateResponse(
-        "games_table.html", {"request": request, "games": games}
+        "games/games_table.html", {"request": request, "games": games}
     )
 
 
@@ -29,7 +29,7 @@ async def create_game(
 ):
     players = await Player.get_all(session)
     return views.TemplateResponse(
-        "create_game.html", {"request": request, "players": players}
+        "games/game.html", {"request": request, "players": players, "mode": "create"}
     )
 
 
@@ -45,24 +45,47 @@ async def create_game(
     )
 
 
-@router.get("/{game_id}", response_class=HTMLResponse)
-async def get_game(
+@router.get("/update/{game_id}", response_class=HTMLResponse, name="update_game_form")
+async def update_game(
     request: Request, game_id: int, session: AsyncSession = Depends(get_async_session)
 ):
     game = await Game.get(session, game_id)
-    return views.TemplateResponse("game_view.html", {"request": request, "game": game})
+    players = await Player.get_all(session)
+    return views.TemplateResponse(
+        "games/game.html",
+        {"request": request, "players": players, "game": game, "mode": "update"},
+    )
 
 
-@router.put("/{game_id}", response_model=ReadGame)
+@router.post("/update/{game_id}", response_class=HTMLResponse, name="update_game")
 async def update_game(
+    request: Request,
     game_id: int,
     game: UpdateGame = Depends(UpdateGame.as_form),
     session: AsyncSession = Depends(get_async_session),
 ):
-    return await Game.update(session, game_id, game)
+    _game = await Game.update(session, game_id, game)
+    return views.TemplateResponse(
+        "info.html", {"request": request, "message": f"Game updated with id {_game.id}"}
+    )
 
 
-@router.delete("/{game_id}")
-async def delete_game(game_id: int, session: AsyncSession = Depends(get_async_session)):
+@router.post("/delete/{game_id}", response_class=HTMLResponse, name="delete_game")
+async def delete_game(
+    request: Request, game_id: int, session: AsyncSession = Depends(get_async_session)
+):
     await Game.delete(session, game_id)
-    return {"status": True}
+    return views.TemplateResponse(
+        "info.html", {"request": request, "message": f"Game deleted with id {game_id}"}
+    )
+
+
+@router.get("/{game_id}", response_class=HTMLResponse, name="get_game")
+async def get_game(
+    request: Request, game_id: int, session: AsyncSession = Depends(get_async_session)
+):
+    game = await Game.get(session, game_id)
+    players = await Player.get_all(session)
+    return views.TemplateResponse(
+        "games/game.html", {"request": request, "players": players, "game": game, "mode": "read"}
+    )

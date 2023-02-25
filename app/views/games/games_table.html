@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Games list</title>
+<link rel="stylesheet" href="{{ url_for('static', path='/css/table.css' ) }}" />
+{% endblock head %}
+
+{% block content %}
+<h1>Games list</h1>
+<table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>date</th>
+            <th>status</th>
+            <th>player 1</th>
+            <th>player 2</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for game in games %}
+        <tr>
+            <td><a href="{{ url_for('get_game', game_id=game.id ) }}">{{game.id}}</a></td>
+            <td>{{game.date}}</td>
+            <td>
+            {% if game.status == 0%}
+                Didn't started
+            {% elif game.status == 1%}
+                Player 1 win
+            {% elif game.status == 2%}
+                Player 2 win
+            {% else %}
+                Draw
+            {% endif %}
+            </td>
+            <td><a href="{{ url_for('get_player', player_id=game.player1.id ) }}">{{game.player1.id}}. {{game.player1.first_name}} {{game.player1.last_name}}</a></td>
+            <td><a href="{{ url_for('get_player', player_id=game.player2.id ) }}">{{game.player2.id}}. {{game.player2.first_name}} {{game.player2.last_name}}</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

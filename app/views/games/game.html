@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>
+    {% if mode == 'create' %}
+    Create game form
+    {% elif mode == 'update'%}
+    Update game {{game.id}} form
+    {% else %}
+    Game {{game.id}}
+    {% endif %}
+</title>
+<link rel="stylesheet" href="{{ url_for('static', path='/css/form.css' ) }}" />
+{% endblock head %}
+
+{% block content %}
+<h1 class="form-title">
+    {% if mode == 'create' %}
+    Create game form
+    {% elif mode == 'update'%}
+    Update game {{game.id}} form
+    {% else %}
+    Game {{game.id}}
+    {% endif %}
+</h1>
+<div class="form">
+    <form action="
+        {% if mode == 'create'%}
+        {{ url_for('create_game') }}
+        {% elif mode == 'update'%}
+        {{ url_for('update_game', game_id=game.id) }}
+        {% else %}
+        {% endif %}  
+    "
+        method="POST">
+        <div class="form-block">
+            <label class="form-label" for="date">Date:</label>
+            <input class="form-input" type="datetime-local" id="date" name="date" required
+            {% if mode!='create'%}value="{{game.date}}"{% endif %}
+            {% if mode=='read'%}disabled{% endif %}>
+        </div>
+        <div class="form-block">
+            <label class="form-label" for="player1_id">Player 1:</label>
+            <select class="form-input" type="text" id="player1_id" name="player1_id" required
+            {% if mode=='read'%}disabled{% endif %}>
+                <option value=""></option>
+                {% for player in players %}
+                <option value={{player.id}} 
+                    {% if mode!='create' and game.player1.id==player.id%}selected{% endif %}
+                >{{player.id}}. {{player.first_name}} {{player.last_name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-block">
+            <label class="form-label" for="player2_id">Player 2:</label>
+            <select class="form-input" type="text" id="player2_id" name="player2_id" required
+            {% if mode=='read'%}disabled{% endif %}>
+                <option value=""></option>
+                {% for player in players %}
+                <option value={{player.id}}
+                    {% if mode!='create' and game.player2.id==player.id%}selected{% endif %}
+                >{{player.id}}. {{player.first_name}} {{player.last_name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-block">
+            <label class="form-label" for="status">Status</label>
+            <select class="form-input" id="status" name="status" {% if mode!='update'%}disabled{% endif %}>
+                <option value="0" {% if mode!='create' and game.status==0%}selected{% endif %}>Didn't started</option>
+                <option value="1"{% if mode!='create' and game.status==1%}selected{% endif %}>Player 1 win</option>
+                <option value="2"{% if mode!='create' and game.status==2%}selected{% endif %}>Player 2 win</option>
+                <option value="3"{% if mode!='create' and game.status==3%}selected{% endif %}>Draw</option>
+            </select>
+        </div>
+        {% if mode == 'create'%}
+        <input class="form-submit" type="submit" value="Create">
+        {% elif mode == 'update'%}
+        <input class="form-submit" type="submit" value="Update">
+        {% endif %}
+    </form>
+    {% if mode == 'read'%}
+        <form action="{{ url_for('update_game_form', game_id=game.id) }}" method="GET">
+            <input class="form-submit" type="submit" value="Edit">
+        </form>
+    {% endif %}
+
+    {% if mode != 'create'%}
+        <form action="{{ url_for('delete_game', game_id=game.id) }}" method="POST">
+            <input class="form-delete" type="submit" value="DELETE">
+        </form>
+    {% endif %}
+
+</div>
+{% if mode != 'read'%}
+<script>
+    const select1 = document.getElementById("player1_id");
+    const select2 = document.getElementById("player2_id");
+
+    // Listen for changes to either select element
+    select1.addEventListener("change", updateSelects);
+    select2.addEventListener("change", updateSelects);
+
+    function updateSelects() {
+        // Get the selected option value for each select element
+        const select1Value = select1.value;
+        const select2Value = select2.value;
+
+        // If the selected options match, reset the second select element
+        if (select1Value === select2Value) {
+            select2.selectedIndex = 0;
+        }
+    }
+</script>
+{% endif %}
+{% endblock content %}
