@@ -17,13 +17,13 @@ async def get_all_players(
 ):
     players = await Player.get_all(session)
     return views.TemplateResponse(
-        "players_table.html", {"request": request, "players": players}
+        "players/players_table.html", {"request": request, "players": players}
     )
 
 
 @router.get("/create", response_class=HTMLResponse, name="create_player_form")
 async def create_player(request: Request):
-    return views.TemplateResponse("player.html", {"request": request, "mode": "create"})
+    return views.TemplateResponse("players/player.html", {"request": request, "mode": "create"})
 
 
 @router.post("/create", response_class=HTMLResponse, name="create_player")
@@ -50,7 +50,7 @@ async def update_player(
 ):
     player = await Player.get(session, player_id)
     return views.TemplateResponse(
-        "player.html", {"request": request, "mode": "update", "player": player}
+        "players/player.html", {"request": request, "mode": "update", "player": player}
     )
 
 
@@ -77,5 +77,5 @@ async def get_player(
 ):
     player = await Player.get(session, player_id)
     return views.TemplateResponse(
-        "player.html", {"request": request, "mode": "read", "player": player}
+        "players/player.html", {"request": request, "mode": "read", "player": player}
     )
