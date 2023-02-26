@@ -31,26 +31,42 @@ def anyio_backend(request):
 @pytest.fixture
 async def session():
     async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
     async with async_session() as session:
-        return session
+        yield session
+
+
+@pytest.fixture
+def player1_data():
+    return {"first_name": "test", "last_name": "test"}
+
+
+@pytest.fixture
+def player2_data():
+    return {"first_name": "test2", "last_name": "test2"}
 
 
 class TestPlayer:
-    async def test_create_player(self, session):
-        create_player = CreatePlayer(first_name="test", last_name="test")
-        player = await Player.create(session, create_player)
-        assert player == ReadPlayer(first_name="test", last_name="test", id=1)
+    async def test_create_player(self, session, player1_data):
+        player = await Player.create(session, CreatePlayer(**player1_data))
+        assert player == ReadPlayer(id=1, **player1_data)
 
-    async def test_update_player(self, session):
-        update_player = UpdatePlayer(first_name="test2", last_name="test2")
-        player = await Player.update(session, 1, update_player)
-        assert player == ReadPlayer(first_name="test2", last_name="test2", id=1)
+    async def test_update_player(self, session, player1_data, player2_data):
+        await Player.create(session, CreatePlayer(**player1_data))
+        player = await Player.update(session, 1, UpdatePlayer(**player2_data))
+        assert player == ReadPlayer(id=1, **player2_data)
 
-    async def test_get_player(self, session):
+    async def test_get_player(self, session, player1_data):
+        await Player.create(session, CreatePlayer(**player1_data))
         player = await Player.get(session, 1)
-        assert player == ReadPlayer(first_name="test2", last_name="test2", id=1)
+        assert player == ReadPlayer(id=1, **player1_data)
 
-    async def test_get_all_players(self, session):
+    async def test_get_all_players(self, session, player1_data, player2_data):
+        await Player.create(session, CreatePlayer(**player1_data))
+        await Player.create(session, CreatePlayer(**player2_data))
         players = await Player.get_all(session)
-        assert players == [ReadPlayer(first_name="test2", last_name="test2", id=1)]
+        assert players == [
+            ReadPlayer(id=1, **player1_data),
+            ReadPlayer(id=2, **player2_data),
+        ]
