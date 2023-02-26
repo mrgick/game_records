@@ -1,6 +1,5 @@
 import pytest
-
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
+from .db import engine, async_session
 
 from app.database.models import Base, Player, Game
 from app.database.schemas import (
@@ -12,14 +11,6 @@ from app.database.schemas import (
     ReadGame,
     GameStatus,
 )
-
-
-engine = create_async_engine(
-    "sqlite+aiosqlite://",
-    isolation_level="AUTOCOMMIT",
-    connect_args={"check_same_thread": False},
-)
-async_session = async_sessionmaker(engine, expire_on_commit=False)
 
 pytestmark = pytest.mark.anyio
 
@@ -103,7 +94,7 @@ class TestGame:
 
     @pytest.fixture
     @classmethod
-    async def game(cls, session, game_data):
+    async def game(cls, session, players, game_data):
         game = await Game.create(session, CreateGame(**game_data))
         return game
 
@@ -113,34 +104,16 @@ class TestGame:
             id=1, player1=players[0], player2=players[1], **game_data
         )
 
-    async def test_update_game(self, session, players, game_data):
-        await Game.create(session, CreateGame(**game_data))
-        game = await Game.update(session, 1, UpdateGame(status=GameStatus.winner_first))
-        assert game == ReadGame(
-            id=1,
-            player1=players[0],
-            player2=players[1],
-            **{**game_data, "status": GameStatus.winner_first}
+    async def test_update_game(self, session, game):
+        _game = await Game.update(
+            session, game.id, UpdateGame(status=GameStatus.winner_first)
         )
+        assert _game == ReadGame(**{**game.dict(), "status": GameStatus.winner_first})
 
-    async def test_get_game(self, session, players, game_data):
-        await Game.create(session, CreateGame(**game_data))
-        game = await Game.get(session, 1)
-        assert game == ReadGame(
-            id=1,
-            player1=players[0],
-            player2=players[1],
-            **{**game_data, "status": GameStatus.not_started}
-        )
+    async def test_get_game(self, session, game):
+        _game = await Game.get(session, game.id)
+        assert _game == ReadGame(**game.dict())
 
-    async def test_get_all_games(self, session, players, game_data):
-        await Game.create(session, CreateGame(**game_data))
+    async def test_get_all_games(self, session, game):
         games = await Game.get_all(session)
-        assert games == [
-            ReadGame(
-                id=1,
-                player1=players[0],
-                player2=players[1],
-                **{**game_data, "status": GameStatus.not_started}
-            )
-        ]
+        assert games == [ReadGame(**game.dict())]
