@@ -19,3 +19,8 @@ app.mount("/static", StaticFiles(directory=settings.static_path), name="static")
 app.include_router(home.router)
 app.include_router(games.router)
 app.include_router(players.router)
+
+@app.on_event("startup")
+async def startup_event():
+    from .database.database import init_db
+    await init_db()
