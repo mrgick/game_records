@@ -53,6 +53,10 @@ source venv/scripts/activate
 ```bash
 pip install -r requirements.txt
 ```
+- Create .env file (just copy .env_example)
+```env
+DB_URL="sqlite+aiosqlite:///game_records.db"
+```
 - Run web server
 ```bash
 python -m uvicorn app.main:app --port 8000
