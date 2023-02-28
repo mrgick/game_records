@@ -22,7 +22,7 @@ async def get_all_players(
 
 
 @router.get("/create", response_class=HTMLResponse, name="create_player_form")
-async def create_player(request: Request):
+async def create_player_form(request: Request):
     return views.TemplateResponse("players/player.html", {"request": request, "mode": "create"})
 
 
@@ -45,7 +45,7 @@ async def create_player(
 @router.get(
     "/update/{player_id}", response_class=HTMLResponse, name="update_player_form"
 )
-async def update_player(
+async def update_player_form(
     request: Request, player_id: int, session: AsyncSession = Depends(get_async_session)
 ):
     player = await Player.get(session, player_id)

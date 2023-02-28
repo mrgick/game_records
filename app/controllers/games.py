@@ -22,7 +22,7 @@ async def get_all_games(
 
 
 @router.get("/create", response_class=HTMLResponse, name="create_game_form")
-async def create_game(
+async def create_game_form(
     request: Request, session: AsyncSession = Depends(get_async_session)
 ):
     players = await Player.get_all(session)
@@ -44,7 +44,7 @@ async def create_game(
 
 
 @router.get("/update/{game_id}", response_class=HTMLResponse, name="update_game_form")
-async def update_game(
+async def update_game_form(
     request: Request, game_id: int, session: AsyncSession = Depends(get_async_session)
 ):
     game = await Game.get(session, game_id)
