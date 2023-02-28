@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from .controllers import games, home, players
-from .controllers.exceptions import catch_exceptions_middleware
+from .views import games, home, players
+from .views.exceptions import catch_exceptions_middleware
 from .config import settings
 
 

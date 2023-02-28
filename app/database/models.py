@@ -126,3 +126,36 @@ class Game(Base):
         )
         result = await session.execute(statement)
         return [ReadGame.from_orm(g) for g in result.scalars()]
+
+"""
+./
+    app/
+    controllers/
+        home.py
+        players.py
+        games.py
+    database/
+        database.py
+        models.py
+        schemas.py
+        schemas_as_form.py
+    views/
+        players/
+            player.html              
+            players_table.html
+        games/
+            game.html              
+            games_table.html
+        base.html
+        home.html
+        info.html
+        navbar.html
+    static/
+        css/
+        favicon/
+    tests/
+        db.py
+        test_controllers.py
+        test_database.py
+
+"""

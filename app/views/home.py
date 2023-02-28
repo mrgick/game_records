@@ -6,9 +6,9 @@ from ..config import settings
 
 
 router = APIRouter(tags=["base"])
-views = Jinja2Templates(directory=settings.views_path)
+templates = Jinja2Templates(directory=settings.templates_path)
 
 
 @router.get("/", response_class=HTMLResponse, name="home")
 async def index(request: Request):
-    return views.TemplateResponse("home.html", {"request": request})
+    return templates.TemplateResponse("home.html", {"request": request})

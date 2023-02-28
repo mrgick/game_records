@@ -3,13 +3,13 @@ from fastapi.templating import Jinja2Templates
 
 from ..config import settings
 
-views = Jinja2Templates(directory=settings.views_path)
+templates = Jinja2Templates(directory=settings.templates_path)
 
 
 async def catch_exceptions_middleware(request: Request, call_next):
     try:
         return await call_next(request)
     except Exception as e:
-        return views.TemplateResponse(
+        return templates.TemplateResponse(
             "info.html", {"request": request, "error": f"Error: {str(e)}"}
         )

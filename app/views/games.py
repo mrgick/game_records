@@ -8,7 +8,7 @@ from ..database.models import Game, Player
 from ..config import settings
 
 router = APIRouter(prefix="/games", tags=["games"])
-views = Jinja2Templates(directory=settings.views_path)
+templates = Jinja2Templates(directory=settings.templates_path)
 
 
 @router.get("/", response_class=HTMLResponse, name="get_all_games")
@@ -16,7 +16,7 @@ async def get_all_games(
     request: Request, session: AsyncSession = Depends(get_async_session)
 ):
     games = await Game.get_all(session)
-    return views.TemplateResponse(
+    return templates.TemplateResponse(
         "games/games_table.html", {"request": request, "games": games}
     )
 
@@ -26,7 +26,7 @@ async def create_game_form(
     request: Request, session: AsyncSession = Depends(get_async_session)
 ):
     players = await Player.get_all(session)
-    return views.TemplateResponse(
+    return templates.TemplateResponse(
         "games/game.html", {"request": request, "players": players, "mode": "create"}
     )
 
@@ -38,7 +38,7 @@ async def create_game(
     game: CreateGame = Depends(CreateGame.as_form),
 ):
     _game = await Game.create(session, game)
-    return views.TemplateResponse(
+    return templates.TemplateResponse(
         "info.html", {"request": request, "message": f"Game created with id {_game.id}"}
     )
 
@@ -49,7 +49,7 @@ async def update_game_form(
 ):
     game = await Game.get(session, game_id)
     players = await Player.get_all(session)
-    return views.TemplateResponse(
+    return templates.TemplateResponse(
         "games/game.html",
         {"request": request, "players": players, "game": game, "mode": "update"},
     )
@@ -63,7 +63,7 @@ async def update_game(
     session: AsyncSession = Depends(get_async_session),
 ):
     _game = await Game.update(session, game_id, game)
-    return views.TemplateResponse(
+    return templates.TemplateResponse(
         "info.html", {"request": request, "message": f"Game updated with id {_game.id}"}
     )
 
@@ -73,7 +73,7 @@ async def delete_game(
     request: Request, game_id: int, session: AsyncSession = Depends(get_async_session)
 ):
     await Game.delete(session, game_id)
-    return views.TemplateResponse(
+    return templates.TemplateResponse(
         "info.html", {"request": request, "message": f"Game deleted with id {game_id}"}
     )
 
@@ -84,7 +84,7 @@ async def get_game(
 ):
     game = await Game.get(session, game_id)
     players = await Player.get_all(session)
-    return views.TemplateResponse(
+    return templates.TemplateResponse(
         "games/game.html",
         {"request": request, "players": players, "game": game, "mode": "read"},
     )
