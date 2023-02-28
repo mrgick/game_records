@@ -38,7 +38,7 @@ python -m venv venv
 ```
 - Activate it
     
-On Linux
+On Linux/MacOS
 
 ```bash
 . venv/bin/activate
