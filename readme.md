@@ -63,3 +63,9 @@ python -m uvicorn app.main:app --port 8000
 ```
 
 Now you can access web on [localhost:8000](http://127.0.0.1:8000)
+
+## Tests
+To run tests do guide "Manually" in "How to run" and then type in terminal
+```bash
+python -m pytest tests
+```
