@@ -1,12 +1,61 @@
+
+# Game records
+University project on the subject "Methods and means of designing information systems and technologies".
+
+## About
+This project implements the registration of players and their games and the results of games played. 
+
+Also, this project is designed for only one person - administrator.
+
+Based on MVT with asynchronous python 3.11 and libraries: FastApi, SqlAlchemy and Jinja2. Tests wrote on PyTest with plugin AnyIO for asynchronous.
+
+## How to run
+
+### Using docker
+- Build
+```bash
+docker build -t game_records .
 ```
-@app.on_event("startup")
-async def startup_event():
-    from .database.database import init_db
-    await init_db()
+- Run (sqlite database will be in memory)
+```bash
+docker run -e DB_URL="sqlite+aiosqlite://" -p 80:80 game_records
+```
+Now you can access web on [localhost](http://127.0.0.1:80)
+
+### Manually
+- Install python 3.11
+- Clone game_records from github
+```bash
+git clone https://github.com/mrgick/game_records.git
+```
+- Open directory game_records
+```
+cd game_records
+```
+- Create python virtual env
+```bash
+python -m venv venv
+```
+- Activate it
+    
+On Linux
+
+```bash
+. venv/bin/activate
 ```
 
-To run tests
+On Windows
 
+```bash
+source venv/scripts/activate
 ```
-python -m pytest app/tests/
+- Install requirements
+```bash
+pip install -r requirements.txt
 ```
+- Run web server
+```bash
+python -m uvicorn app.main:app --port 8000
+```
+
+Now you can access web on [localhost:8000](http://127.0.0.1:8000)
