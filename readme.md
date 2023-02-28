@@ -7,7 +7,7 @@ This project implements the registration of players and their games and the resu
 
 Also, this project is designed for only one person - administrator.
 
-Based on MVT with asynchronous python 3.11 and libraries: FastApi, SqlAlchemy and Jinja2. Tests wrote on PyTest with plugin AnyIO for asynchronous.
+Based on MVT (MVC) with asynchronous python 3.11 and libraries: FastApi, SqlAlchemy and Jinja2. Tests wrote on PyTest with plugin AnyIO for asynchronous.
 
 ## How to run
 
